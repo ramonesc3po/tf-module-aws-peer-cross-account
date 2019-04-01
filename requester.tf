@@ -51,8 +51,8 @@ data "aws_region" "requester" {
 }
 
 data "aws_caller_identity" "requester" {
-  count      = "${local.vpc_peer == true}"
   account_id = "aws.requester"
+  count      = "${local.vpc_peer == true}"
 }
 
 resource "aws_vpc_peering_connection" "requester" {
@@ -68,7 +68,7 @@ resource "aws_vpc_peering_connection" "requester" {
     allow_remote_vpc_dns_resolution = "${var.requester_allow_remote_vpc_dns_resolution}"
   }
 
-  tags = "${concat(var.tags,
+  tags = "${merge(var.tags,
   map("Name", local.name_requester_vpc_peer),
   map("Tier", var.tier),
   map("Peer", "requester"),

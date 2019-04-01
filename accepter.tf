@@ -46,20 +46,21 @@ data "aws_region" "accepter" {
 }
 
 data "aws_caller_identity" "accepter" {
+  provider = "aws.accepter"
   count      = "${local.vpc_peer == true}"
-  account_id = "aws.accepter"
 }
 
 resource "aws_vpc_peering_connection_accepter" "accepter" {
   provider                  = "aws.accepter"
   count                     = "${local.vpc_peer == true}"
   vpc_peering_connection_id = "${aws_vpc_peering_connection.requester.id}"
+  auto_accept               = true
 
   accepter {
     allow_remote_vpc_dns_resolution = "${var.requester_allow_remote_vpc_dns_resolution}"
   }
 
-  tags = "${concat(var.tags,
+  tags = "${merge(var.tags,
   map("Name", local.name_accepter_vpc_peer),
   map("Tier", var.tier),
   map("Peer", local.name_accepter_peer_type),
