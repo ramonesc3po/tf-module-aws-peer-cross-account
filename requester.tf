@@ -51,8 +51,8 @@ data "aws_region" "requester" {
 }
 
 data "aws_caller_identity" "requester" {
-  account_id = "aws.requester"
-  count      = "${local.vpc_peer == true}"
+  provider = "aws.requester"
+  count    = "${local.vpc_peer == true}"
 }
 
 resource "aws_vpc_peering_connection" "requester" {
