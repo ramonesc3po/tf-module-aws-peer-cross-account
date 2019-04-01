@@ -1,5 +1,4 @@
 locals {
-  requester_region         = "${data.aws_region.requester.name}"
   name_requester_peer_type = "requester"
   name_requester_vpc_peer  = "${var.organization}-${var.name_vpc_peer}-${local.name_requester_peer_type}-${var.tier}"
 }
@@ -42,11 +41,6 @@ provider "aws" {
 
 data "aws_vpc" "requester" {
   provider = "aws.requester"
-  id       = "${var.requester_vpc_id}"
-}
-
-data "aws_region" "requester" {
-  provider = "aws.requester"
   count    = "${local.vpc_peer == true}"
 }
 
@@ -58,9 +52,9 @@ data "aws_caller_identity" "requester" {
 resource "aws_vpc_peering_connection" "requester" {
   provider      = "aws.requester"
   count         = "${local.vpc_peer == true}"
-  peer_vpc_id   = "${data.aws_vpc.requester.id}"
+  peer_vpc_id   = "${data.aws_vpc.accepter.id}"
   peer_owner_id = "${data.aws_caller_identity.accepter.account_id}"
-  peer_region   = "${local.accepter_region}"
+  peer_region   = "${var.accepter_region}"
   auto_accept   = "false"
   vpc_id        = "${data.aws_vpc.requester.id}"
 

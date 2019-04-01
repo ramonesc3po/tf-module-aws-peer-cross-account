@@ -1,5 +1,4 @@
 locals {
-  accepter_region         = "${data.aws_region.accepter.name}"
   name_accepter_peer_type = "accepter"
   name_accepter_vpc_peer  = "${var.organization}-${var.name_vpc_peer}-${local.name_accepter_peer_type}-${var.tier}"
 }
@@ -40,14 +39,14 @@ provider "aws" {
   }
 }
 
-data "aws_region" "accepter" {
+data "aws_vpc" "accepter" {
   provider = "aws.accepter"
   count    = "${local.vpc_peer == true}"
 }
 
 data "aws_caller_identity" "accepter" {
   provider = "aws.accepter"
-  count      = "${local.vpc_peer == true}"
+  count    = "${local.vpc_peer == true}"
 }
 
 resource "aws_vpc_peering_connection_accepter" "accepter" {
