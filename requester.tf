@@ -52,11 +52,11 @@ data "aws_caller_identity" "requester" {
 resource "aws_vpc_peering_connection" "requester" {
   provider      = "aws.requester"
   count         = "${local.vpc_peer == true}"
-  peer_vpc_id   = "${data.aws_vpc.accepter.id}"
+  peer_vpc_id   = "${var.accepter_vpc_id}"
   peer_owner_id = "${data.aws_caller_identity.accepter.account_id}"
   peer_region   = "${var.accepter_region}"
   auto_accept   = "false"
-  vpc_id        = "${data.aws_vpc.requester.id}"
+  vpc_id        = "${var.requester_vpc_id}"
 
   requester {
     allow_remote_vpc_dns_resolution = "${var.requester_allow_remote_vpc_dns_resolution}"
