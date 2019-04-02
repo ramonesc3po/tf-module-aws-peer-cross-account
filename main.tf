@@ -7,7 +7,7 @@ locals {
 }
 
 variable "enabled_vpc_peer" {
-  default = true
+  default = "true"
 }
 
 variable "accepter_allow_remote_vpc_dns_resolution" {
