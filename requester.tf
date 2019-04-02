@@ -56,7 +56,7 @@ resource "aws_vpc_peering_connection" "requester" {
   peer_vpc_id   = "${var.accepter_vpc_id}"
   peer_owner_id = "${data.aws_caller_identity.accepter.account_id}"
   peer_region   = "${var.accepter_region}"
-  auto_accept   = "false"
+  auto_accept   = true
   vpc_id        = "${var.requester_vpc_id}"
 
   requester {
