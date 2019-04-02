@@ -64,6 +64,6 @@ resource "aws_vpc_peering_connection_accepter" "accepter" {
   map("Name", local.name_accepter_vpc_peer),
   map("Tier", var.tier),
   map("Peer", local.name_accepter_peer_type),
-  map("Terrafor", "true")
+  map("Terraform", "true")
   )}"
 }
