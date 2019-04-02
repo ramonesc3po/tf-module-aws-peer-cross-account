@@ -86,8 +86,8 @@ resource "aws_vpc_peering_connection_options" "requester" {
 # Requester add route in route-table
 ##
 locals {
-  route_tables_id    = "${distinct(data.aws_route_table.requester.*.route_table_id)}"
-  route_table_count  = "${length(local.route_tables_id)}"
+  requester_route_tables_id    = "${distinct(data.aws_route_table.requester.*.route_table_id)}"
+  requester_route_table_count  = "${length(local.requester_route_tables_id)}"
   requester_subnet_names       = "${distinct(sort(flatten(data.aws_subnet_ids.requester.*.ids)))}"
   requester_subnet_names_count = "${length(var.requester_subnet_names)}"
   local_requester_subnet_names_count = "${length(local.requester_subnet_names)}"
@@ -111,15 +111,15 @@ data "aws_subnet_ids" "requester" {
 
 data "aws_route_table" "requester" {
   provider  = "aws.requester"
-  count     = "${local.vpc_peer && local.local_subnet_names_count > 0 ? local.local_subnet_names_count : 0}"
+  count     = "${local.vpc_peer && local.local_requester_subnet_names_count > 0 ? local.local_requester_subnet_names_count : 0}"
   vpc_id    = "${data.aws_vpc.requester.id}"
   subnet_id = "${element(local.requester_subnet_names, count.index)}"
 }
 
 resource "aws_route" "requester" {
   provider = "aws.requester"
-  count                     = "${local.vpc_peer && local.route_table_count > 0 ? local.route_table_count : 0}"
-  route_table_id            = "${element(local.route_tables_id, count.index)}"
+  count                     = "${local.vpc_peer && local.requester_route_table_count > 0 ? local.requester_route_table_count : 0}"
+  route_table_id            = "${element(local.requester_route_tables_id, count.index)}"
   destination_cidr_block    = "${data.aws_vpc.accepter.cidr_block}"
   vpc_peering_connection_id = "${aws_vpc_peering_connection.requester.id}"
 }

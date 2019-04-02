@@ -83,8 +83,8 @@ resource "aws_vpc_peering_connection_options" "accepter" {
 # Accepter add route in route-table
 ##
 locals {
-  route_tables_id    = "${distinct(data.aws_route_table.accepter.*.route_table_id)}"
-  route_table_count  = "${length(local.route_tables_id)}"
+  accepter_route_tables_id    = "${distinct(data.aws_route_table.accepter.*.route_table_id)}"
+  accepter_route_table_count  = "${length(local.accepter_route_tables_id)}"
   accepter_subnet_names       = "${distinct(sort(flatten(data.aws_subnet_ids.accepter.*.ids)))}"
   accepter_subnet_names_count = "${length(var.accepter_subnet_names)}"
   local_accepter_subnet_names_count = "${length(local.accepter_subnet_names)}"
@@ -115,8 +115,8 @@ data "aws_route_table" "accepter" {
 
 resource "aws_route" "accepter" {
   provider = "aws.accepter"
-  count                     = "${local.vpc_peer && local.route_table_count > 0 ? local.route_table_count : 0}"
-  route_table_id            = "${element(local.route_tables_id, count.index)}"
+  count                     = "${local.vpc_peer && local.accepter_route_table_count > 0 ? local.accepter_route_table_count : 0}"
+  route_table_id            = "${element(local.accepter_route_tables_id, count.index)}"
   destination_cidr_block    = "${data.aws_vpc.accepter.cidr_block}"
   vpc_peering_connection_id = "${aws_vpc_peering_connection.requester.id}"
 }
