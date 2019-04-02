@@ -7,6 +7,7 @@ module "vpc-peer-cross-account-example" {
   requester_role_session_name = ""
   requester_external_id       = ""
   requester_vpc_id = ""
+  route_table_id = [""]
 
   # Accepter vpc peer
   accepter_region            = ""
@@ -20,3 +21,4 @@ module "vpc-peer-cross-account-example" {
   tier          = "production"
   organization  = "zigzaga"
 }
+
