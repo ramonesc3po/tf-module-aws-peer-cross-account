@@ -41,17 +41,17 @@ provider "aws" {
 
 data "aws_vpc" "accepter" {
   provider = "aws.accepter"
-  count    = "${local.vpc_peer == true}"
+  count    = "${local.vpc_peer}"
 }
 
 data "aws_caller_identity" "accepter" {
   provider = "aws.accepter"
-  count    = "${local.vpc_peer == true}"
+  count    = "${local.vpc_peer}"
 }
 
 resource "aws_vpc_peering_connection_accepter" "accepter" {
   provider                  = "aws.accepter"
-  count                     = "${local.vpc_peer == true}"
+  count                     = "${local.vpc_peer}"
   vpc_peering_connection_id = "${aws_vpc_peering_connection.requester.id}"
   auto_accept               = true
 

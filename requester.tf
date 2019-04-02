@@ -41,17 +41,17 @@ provider "aws" {
 
 data "aws_vpc" "requester" {
   provider = "aws.requester"
-  count    = "${local.vpc_peer == true}"
+  count    = "${local.vpc_peer}"
 }
 
 data "aws_caller_identity" "requester" {
   provider = "aws.requester"
-  count    = "${local.vpc_peer == true}"
+  count    = "${local.vpc_peer}"
 }
 
 resource "aws_vpc_peering_connection" "requester" {
   provider      = "aws.requester"
-  count         = "${local.vpc_peer == true}"
+  count         = "${local.vpc_peer}"
   peer_vpc_id   = "${var.accepter_vpc_id}"
   peer_owner_id = "${data.aws_caller_identity.accepter.account_id}"
   peer_region   = "${var.accepter_region}"
