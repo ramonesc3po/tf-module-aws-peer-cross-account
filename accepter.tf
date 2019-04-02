@@ -80,7 +80,7 @@ resource "aws_vpc_peering_connection_options" "accepter" {
 }
 
 ##
-# Requester add route in route-table
+# Accepter add route in route-table
 ##
 locals {
   route_tables_id    = "${distinct(data.aws_route_table.accepter.*.route_table_id)}"
