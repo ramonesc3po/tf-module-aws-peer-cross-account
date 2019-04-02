@@ -42,6 +42,7 @@ provider "aws" {
 data "aws_vpc" "accepter" {
   provider = "aws.accepter"
   count    = "${local.vpc_peer}"
+  id       = "${var.accepter_vpc_id}"
 }
 
 data "aws_caller_identity" "accepter" {

@@ -42,6 +42,7 @@ provider "aws" {
 data "aws_vpc" "requester" {
   provider = "aws.requester"
   count    = "${local.vpc_peer}"
+  id       = "${var.requester_vpc_id}"
 }
 
 data "aws_caller_identity" "requester" {
