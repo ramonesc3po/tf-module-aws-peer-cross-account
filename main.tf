@@ -3,7 +3,8 @@ terraform {
 }
 
 locals {
-  vpc_peer = "${var.enabled_vpc_peer == true ? 1 : 0}"
+  vpc_peer      = "${var.enabled_vpc_peer == true ? 1 : 0}"
+  name_vpc_peer = "${var.organization}-${var.name_vpc_peer}-${var.tier}"
 }
 
 variable "enabled_vpc_peer" {

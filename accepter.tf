@@ -1,8 +1,3 @@
-locals {
-  name_accepter_peer_type = "accepter"
-  name_accepter_vpc_peer  = "${var.organization}-${var.name_vpc_peer}-${local.name_accepter_peer_type}-${var.tier}"
-}
-
 variable "accepter_region" {
   description = ""
   type        = "string"
@@ -61,9 +56,7 @@ resource "aws_vpc_peering_connection_accepter" "accepter" {
   }
 
   tags = "${merge(var.tags,
-  map("Name", local.name_accepter_vpc_peer),
-  map("Tier", var.tier),
-  map("Peer", local.name_accepter_peer_type),
-  map("Terraform", "true")
+  map("Name", local.name_vpc_peer),
+  map("Tier", var.tier)
   )}"
 }

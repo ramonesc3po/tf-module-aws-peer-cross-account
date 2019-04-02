@@ -1,8 +1,3 @@
-locals {
-  name_requester_peer_type = "requester"
-  name_requester_vpc_peer  = "${var.organization}-${var.name_vpc_peer}-${local.name_requester_peer_type}-${var.tier}"
-}
-
 variable "requester_region" {
   description = ""
   type        = "string"
@@ -64,9 +59,8 @@ resource "aws_vpc_peering_connection" "requester" {
   }
 
   tags = "${merge(var.tags,
-  map("Name", local.name_requester_vpc_peer),
+  map("Name", local.name_vpc_peer),
   map("Tier", var.tier),
-  map("Peer", "requester"),
   map("Terraform", "true")
   )}"
 }
