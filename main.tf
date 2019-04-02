@@ -7,7 +7,6 @@ locals {
 }
 
 variable "enabled_vpc_peer" {
-  type    = "string"
   default = true
 }
 
